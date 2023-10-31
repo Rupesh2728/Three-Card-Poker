@@ -22,16 +22,24 @@ async function main() {
    await contract.connect(player2).Play_poker("Player2",{value : hre.ethers.parseEther("0.5")});
    await contract.connect(player3).Play_poker("Player3",{value : hre.ethers.parseEther("0.25")});
    await contract.connect(player4).Play_poker("Player4",{value : hre.ethers.parseEther("0.75")});
-   await contract.connect(owner).select_Winner();
+
 
    console.log("Participant 1:",(await contract.participents(0)).toString());
    console.log("Participant 2:",(await contract.participents(1)).toString());
    console.log("Participant 3:",(await contract.participents(2)).toString());
    console.log("Participant 4:",(await contract.participents(3)).toString());
 
+
+   await contract.connect(owner).select_Winner();
+
    console.log("After Game starts...");
-   getBalances([player1,player2,player3,player4]);
- 
+   const p1_bal=await contract.registered_Users(player1);
+   const p2_bal=await contract.registered_Users(player2);
+   const p3_bal=await contract.registered_Users(player3);
+   const p4_bal=await contract.registered_Users(player4);
+
+   console.log(p1_bal,p2_bal,p3_bal,p4_bal);
+   await getBalances([player1,player2,player3,player4]);
 }
 
 main().catch((error) => {

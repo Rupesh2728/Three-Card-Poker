@@ -3,13 +3,6 @@ pragma solidity >=0.5.0 <0.9.0;
 
 contract ThreeCardPoker
 {     
-    //  struct Card
-    //  {
-    //     uint suit;     // Clubs-0 Spades-1 Hearts-2 Diamonds-3
-    //     uint card_num; // A-0, 2-1,3-2.......10-9,Jack-10, Queen-11, king-12, 
-    //     //if 0, that is equivalent to 13
-    //  }
-
     struct Player
      {   string name;
         address player_address;
@@ -22,21 +15,17 @@ contract ThreeCardPoker
 
           uint card_suit3;
          uint card_num3;
+
+         uint score;
           // King => hearts 
      }
 
-     struct User
-     {
-         string name;
-         uint coin_balance;
-     }
-
-    //  mapping(address=>User) registered_Users;
-
+    uint prevroundbalance;
+    mapping(address=>uint) public registered_Users;
+    address[] private winners;
     address public manager;
     Player[] public participents;
     uint randNounce=0;
-
 
     constructor()
     {
@@ -61,8 +50,8 @@ contract ThreeCardPoker
 
     function Play_poker(string memory _name) public payable 
     {   
-        // payable(manager).transfer(msg.value);
-        participents.push(Player(_name,msg.sender,Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum()));
+        // payable(manager).transfer(msg.value);     
+        participents.push(Player(_name,msg.sender,Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),0));
     }
 
     function getContractBal() public view returns(uint)
@@ -72,25 +61,52 @@ contract ThreeCardPoker
 
     
     function select_Winner() public payable {
-        require(participents.length>=3 && msg.sender==manager,"Min 3 participents are req..."); 
+        require(participents.length>=2 && msg.sender==manager,"Min 3 participents are req..."); 
         uint maxscore=0;
-        address winner;
+
         for(uint i=0;i<participents.length;i++)
         {   
-            uint score=(participents[i].card_num1==0?13:participents[i].card_num1)+
+            uint _score=(participents[i].card_num1==0?13:participents[i].card_num1)+
             (participents[i].card_num2==0?13:participents[i].card_num2)+
             (participents[i].card_num3==0?13:participents[i].card_num3);
             
-           if(score>maxscore)
-           {
-             maxscore=score;
-             winner=participents[i].player_address;     // If max score equal case missed
-           }
+            participents[i].score=_score;
+              
+           if(_score>maxscore)
+              maxscore=_score;   
+           
         }
-        
-        uint balance=address(this).balance;
-        payable(winner).transfer(balance); 
+
+        for(uint i=0;i<participents.length;i++)
+        {  if(maxscore==participents[i].score)
+             winners.push(participents[i].player_address);
+        }
+
+        uint balance;
+
+        if(prevroundbalance<address(this).balance)
+          balance=address(this).balance-prevroundbalance;
+        else 
+          balance=prevroundbalance-address(this).balance;
+
+        prevroundbalance+=balance;
+
+        uint final_prize=balance/winners.length;
+
+        for(uint i=0;i<winners.length;i++)
+       { 
+          registered_Users[winners[i]]+=final_prize;
+       }
+
+       delete winners;
+       delete participents;
+    }
+
+    function transfer_bet_from_game_to_acc() public payable 
+    {   
+        uint value=registered_Users[msg.sender];
+        payable(msg.sender).transfer(value);
+        registered_Users[msg.sender]=0;
     }
 
 }
-
