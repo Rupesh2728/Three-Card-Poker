@@ -1,11 +1,21 @@
-import './App.css';
-import { ethers } from 'ethers';
-function App() {
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Import BrowserRouter
 
+import Intro from './Components/Intro';
+import PlayersFormationPage from './Components/PlayersFormationPage';
+import Game from './Components/Game';
+
+function App() {
   return (
-    <div className="App">
-      
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route exact path="/" Component={Intro} />
+          <Route exact path="/takeplayers" Component={PlayersFormationPage} />
+          <Route exact path="/game" Component={Game} />
+        </Routes>     
+      </div>
+    </Router>
   );
 }
 
