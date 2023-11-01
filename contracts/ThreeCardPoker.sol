@@ -22,7 +22,7 @@ contract ThreeCardPoker
 
     uint prevroundbalance;
     mapping(address=>uint) public registered_Users;
-    address[] private winners;
+    address[] public winners;
     address public manager;
     Player[] public participents;
     uint randNounce=0;
@@ -60,8 +60,8 @@ contract ThreeCardPoker
     }
 
     
-    function select_Winner() public payable {
-        require(participents.length>=2 && msg.sender==manager,"Min 3 participents are req..."); 
+    function select_Winner() public {
+        require(participents.length==4,"4 participents are req for a game..."); 
         uint maxscore=0;
 
         for(uint i=0;i<participents.length;i++)
@@ -98,15 +98,30 @@ contract ThreeCardPoker
           registered_Users[winners[i]]+=final_prize;
        }
 
-       delete winners;
-       delete participents;
+    }
+
+    function exit_game() public  
+    {
+        delete winners;
+        delete participents;
     }
 
     function transfer_bet_from_game_to_acc() public payable 
-    {   
+    { 
         uint value=registered_Users[msg.sender];
         payable(msg.sender).transfer(value);
         registered_Users[msg.sender]=0;
+    }
+
+
+    function getplayers_arr() public view returns(Player[] memory)
+    {
+        return participents;
+    }
+
+     function getwinners_arr() public view returns(address[] memory)
+    {
+        return winners;
     }
 
 }

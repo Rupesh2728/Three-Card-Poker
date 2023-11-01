@@ -1,19 +1,68 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
+import { ethers } from "ethers";
 
-const PlayersFormationPage = () => {
+const PlayersFormationPage = ({state,account}) => {
   const [nickname, setNickname] = useState("");
   const [amount, setAmount] = useState("");
   const [playerDetails, setPlayerDetails] = useState([]);
+  const [win_wallet,setwin_wallet] = useState("0");
+  // const [account,setaccount]=useState("No account Connected");
+  const betval=0.0008;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (nickname && amount) 
+   const {contract}=state;
+
+   useEffect(()=>{
+    const getinfo=async()=>{
+    const getplayers_arr=await contract.getplayers_arr();
+    console.log(getplayers_arr);
+    setPlayerDetails(getplayers_arr);
+
+    const getplayerbalance=await contract.registered_Users(account);
+    
+    setwin_wallet(ethers.formatEther(getplayerbalance).toString());
+    };
+
+    contract && getinfo();
+   },[contract,account,playerDetails.length]);
+
+   
+  //  useEffect(()=>{
+  // const func=async ()=>{
+  //   const accounts=await state.provider.listAccounts();
+  //   setaccount(accounts[0].address);
+  // }
+
+  // func();
+  //  },[state]);
+
+
+
+  const tranferHandler=async ()=>{
+    await contract.transfer_bet_from_game_to_acc();
+    const getplayerbalance=await contract.registered_Users(account);
+    setwin_wallet(ethers.formatEther(getplayerbalance).toString());
+  }
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault(); 
+    if(amount===betval.toString())
     {
-      setPlayerDetails([...playerDetails, { nickname, amount }]);
-      setNickname("");
-      setAmount("");
+      const {contract}=state;
+      const amount={ value : ethers.parseEther("0.008")};
+      await contract.Play_poker(nickname,amount);
+      console.log("Transaction done...");
     }
+
+    else 
+    {
+      console.log("Invalid Bet amount");
+    }
+
+    setNickname("");
+    setAmount("");
+   
   };
 
 
@@ -22,7 +71,7 @@ const PlayersFormationPage = () => {
       <div className="m-auto flex justify-between">
      
       <div className="bg-[#FFFDD0] rounded-lg flex ml-6 mt-5 p-2 py-3">
-        <p className="font-bold text-[black]">Players : 4</p>
+        <p className="font-bold text-[black]">Players : {playerDetails.length}</p>
       </div>
 
      
@@ -32,12 +81,12 @@ const PlayersFormationPage = () => {
         <div className="bg-[#FFFDD0] rounded-lg flex mr-6 mt-5 p-2 py-3">
          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
          className="w-[1.5rem] h-[1.5rem] mr-2" alt=""/>
-        <p className="font-bold">fdfihuferfuefuergfureurg uyg</p>
+        <p className="font-bold">{account}</p>
       </div>
       </div>
 
 
-  
+
       <h2 className="text-[1.5rem] font-bold ml-[40rem] mt-[4rem] text-[gold]">Add Bet :</h2>
 
       <form onSubmit={handleSubmit} className="flex mt-[1rem]">
@@ -80,8 +129,9 @@ const PlayersFormationPage = () => {
           <tbody>
             {playerDetails.map((player, index) => (
               <tr key={index}>
-                <td className="border p-2 text-white">{player.nickname}</td>
-                <td className="border p-2 text-white">{player.amount}</td>
+                <td className="border p-2 text-white">{player.name}</td>
+                <td className="border p-2 text-white">{betval}</td>
+                <td className="border p-2 text-white">{player.player_address}</td>
               </tr>
             ))}
           </tbody>
@@ -92,7 +142,7 @@ const PlayersFormationPage = () => {
       <div className="absolute bottom-0 right-0 mb-8 mr-8  flex">
      <p className="ml-6 mt-6 p-2 text-white font-bold"> Bet Value :</p>
      <div className="bg-[#FFFDD0] rounded-lg flex ml-2 mt-6 p-2">
-       <p className="font-bold text-[red]">0.02 Eth</p>
+       <p className="font-bold text-[red]">{betval} Eth</p>
      </div>
 
       </div>
@@ -100,25 +150,29 @@ const PlayersFormationPage = () => {
       <div className="absolute bottom-0 right-0 mb-8 mr-[20rem]  flex">
      <p className="ml-6 mt-6 p-2 text-white font-bold"> Win Wallet :</p>
      <div className="bg-[#FFFDD0] rounded-lg flex ml-2 mt-6 p-2">
-       <p className="font-bold text-[red]">0.02 Eth</p>
+       <p className="font-bold text-[red]">{win_wallet} Eth</p>
      </div>
 
       </div>
 
-      <button className="bg-[blue] text-[white] font-bold w-[6rem] h-[2.5rem] rounded-lg hover:bg-[gold]
-       hover:text-[red] absolute bottom-0 mb-8 right-0 mr-[35rem]" type="submit">
-         Transfer
-        </button>
+      {
+        win_wallet!=="0.0" && 
+        <button onClick={tranferHandler} className="bg-[blue] text-[white] font-bold w-[6rem] h-[2.5rem] rounded-lg hover:bg-[gold]
+        hover:text-[red] absolute bottom-0 mb-8 right-0 mr-[35rem]" type="submit">
+          Transfer
+       </button>
+      }
 
 
      <Link to="/game">
+     {playerDetails.length===4 && 
      <button className="bg-green-600 hover:bg-[gold] hover:text-[red] text-[white] text-[1.5rem] font-bold py-4 px-8 mt-10 absolute bottom-0 left-0 mb-8 ml-8 flex rounded">
-     <div className="flex">
-     <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/casino-coin-2870771-2385686.png"
+       <div className="flex">
+         <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/casino-coin-2870771-2385686.png"
          className="w-[1.6rem] h-[1.8rem] mr-2 mt-1" alt=""/>
          Start Game
-     </div>
-       </button>
+       </div>
+     </button>}
      </Link>
       
     </div>
