@@ -19,7 +19,11 @@ contract ThreeCardPoker
          uint score;
           // King => hearts 
      }
+ 
 
+    string public platformfee;
+    uint public owners_bal;
+    string public bonus;
     uint prevroundbalance;
     mapping(address=>uint) public registered_Users;
     address[] public winners;
@@ -30,11 +34,29 @@ contract ThreeCardPoker
     constructor()
     {
         manager=msg.sender;
+        platformfee="0";
+        owners_bal=0;
+        bonus="0";
+    }
+
+    function getOwnerBalance() public view returns(uint)
+    {
+        return manager.balance;
+    }
+
+    function setPlatformfee(string memory pfee) public 
+    {   require(msg.sender==manager);
+        platformfee=pfee;
+    } 
+
+    function setBonus(string memory _bonus) public 
+    {   require(msg.sender==manager);
+        bonus=_bonus;
     }
 
     function random() public returns(uint)
     {
-         randNounce+=1;
+        randNounce+=1;
         return uint(keccak256(abi.encodePacked(block.difficulty,block.timestamp,randNounce)));
     }
 
@@ -48,11 +70,20 @@ contract ThreeCardPoker
         return card_num;
     }
 
-    function Play_poker(string memory _name) public payable 
-    {   
-        // payable(manager).transfer(msg.value);     
-        participents.push(Player(_name,msg.sender,Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),0));
+
+    function payplatformfee(uint val) public payable 
+    {
+          payable(manager).transfer(val);
     }
+
+
+    function Play_poker(string memory _name,uint pfee) public payable 
+    {   
+        participents.push(Player(_name,msg.sender,Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),0));
+
+        payplatformfee(pfee);
+    }
+
 
     function getContractBal() public view returns(uint)
     {
@@ -60,8 +91,8 @@ contract ThreeCardPoker
     }
 
     
-    function select_Winner() public {
-        require(participents.length==4,"4 participents are req for a game..."); 
+    function select_Winner() public payable {
+        require(participents.length==4,"Min 3 participents are req..."); 
         uint maxscore=0;
 
         for(uint i=0;i<participents.length;i++)
@@ -103,7 +134,7 @@ contract ThreeCardPoker
     function exit_game() public  
     {
         delete winners;
-        delete participents;
+       delete participents;
     }
 
     function transfer_bet_from_game_to_acc() public payable 
@@ -114,14 +145,20 @@ contract ThreeCardPoker
     }
 
 
+    function update_wallet(address acc,uint val) public 
+    {
+         registered_Users[acc]=val;
+    }
+
+
     function getplayers_arr() public view returns(Player[] memory)
     {
         return participents;
     }
 
-     function getwinners_arr() public view returns(address[] memory)
+    function getwinners_arr() public view returns(address[] memory)
     {
-        return winners;
+       return winners;
     }
 
 }

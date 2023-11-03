@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 import {ethers } from "ethers";
 import startbtnlogo from '../Assests/startbtnlogo.png';
 
-// 0x097945987a391003CC503f5fAea9F5499f14FAc5
-const Intro = ({setstateHandler,setAccountHandler}) => {
+// 0x26DFa4C5d2CaD76Dc1613ff9c7c3AA6Acf90101e
+const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
   const [account,setaccount]=useState("No account Connected");
   const [flag,setflag]=useState(false);
 
   const onClickHandler=()=>{
     const connetWallet=async()=>{
-      const contractAddress="0x097945987a391003CC503f5fAea9F5499f14FAc5";
+      const contractAddress="0x26DFa4C5d2CaD76Dc1613ff9c7c3AA6Acf90101e";
       const contractABI=abi.abi;
       try{
         const {ethereum} = window;
@@ -22,6 +22,7 @@ const Intro = ({setstateHandler,setAccountHandler}) => {
          }
     
         const provider=new ethers.BrowserProvider(ethereum);
+        console.log(await provider.getBalance(contractAddress));
         const accounts=await provider.listAccounts();
         setaccount(accounts[0].address);
         const signer=await provider.getSigner();
@@ -39,7 +40,7 @@ const Intro = ({setstateHandler,setAccountHandler}) => {
        console.log(error);
       }
    }
-
+  
    connetWallet();
    setflag(true);
   }
@@ -68,19 +69,72 @@ const Intro = ({setstateHandler,setAccountHandler}) => {
 
       </div>
 
-      <div className="p-8 mt-[6rem] rounded-lg text-[gold]">
+      <div className="p-8 mt-[4rem] rounded-lg text-[gold]">
         <h1 className="text-[2.5rem] font-bold mb-4 ml-[3.5rem]">Welcome to Three Card Poker</h1>
        <div className="items-center justify-center m-auto">
          <p className="text-white font-bold">
           Are you ready to play? Please connect your Metamask account before you start the game...
-        </p>
+        </p>    
        </div>
  
       </div>
 
+      <div className="absolute left-0 mt-[15rem] ml-[2rem] bg-[#FFFDD0] rounded-lg w-[30rem] p-4 pt-2">
+      <p className="text-[red] font-bold text-[1.3rem] mt-[1rem] ml-[1.5rem]">
+           Game Rules and Bonus Criteria: 
+        </p>
+
+        <p className="text-[black] font-bold ml-[0.5rem] flex">
+          <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> Pay the mentioned bet value to participate in the game, after connecting to the account
+        </p>
+
+        <p className="text-[black] font-bold ml-[0.5rem] flex">
+          <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> Note, an additional Platform fee will also be added when you pay the bet, collected for maintainance purposes.
+        </p>
+
+        <p className="text-[black] font-bold ml-[0.5rem] flex">
+          <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> After forming a team of 4 players you can start the game.
+        </p>
+
+        <p className="text-[black] font-bold ml-[0.5rem] flex">
+          <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> 3 Cards are distributed to each player. One can see the other player cards after seeing their own cards.
+        </p>
+
+        <p className="text-[black] font-bold ml-[0.5rem] flex">
+          <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> After revealing of all the cards winners are declared and the bet value is distributed accordingly.
+        </p>
+
+        <p className="text-[black] font-bold ml-[0.5rem] flex">
+          <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> Their is a wallet named "Win Wallet" which stores your win amount in it. You can transfer the amount at any time.
+        </p>
+
+        <p className="text-[black] font-bold ml-[0.5rem] flex">
+          <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> If your wallet accumulates a certain amount of win amount you recieve bonus.
+        </p>
+      </div>
+
+      {account===owner && 
+      <Link to="/owner">
+        <button className="hover:bg-green-600 bg-[gold] text-[red] hover:text-[white] text-[1.2rem] absolute font-bold py-4 px-8 mb-[2rem] mr-6 bottom-0 right-0 rounded">
+            <div className="flex">
+              <img src="https://cdn-icons-png.flaticon.com/512/1654/1654220.png"
+               className="w-[1.5rem] h-[1.5rem] mr-2 mt-1" alt=""/>
+                Owner Dashboard
+             </div>
+        </button>
+      </Link>}
+
+
         <div className="flex absolute bottom-0 mb-10">
         {
-        flag && 
+        flag && account!==owner && 
         <Link to="/takeplayers">
            <button className="bg-green-600 hover:bg-[gold] hover:text-[red] text-[white] text-[1.5rem] font-bold py-4 px-8 mt-10 mr-6 bottom-0 rounded">
              <div className="flex">

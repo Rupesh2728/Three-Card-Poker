@@ -6,38 +6,59 @@ const PlayersFormationPage = ({state,account}) => {
   const [nickname, setNickname] = useState("");
   const [amount, setAmount] = useState("");
   const [playerDetails, setPlayerDetails] = useState([]);
-  const [win_wallet,setwin_wallet] = useState("0");
+  const [win_wallet,setwin_wallet] = useState("0.0");
+  const [pfee,setpfee]=useState("");
+  const [bonusval,setbonusval] = useState("");
+
   // const [account,setaccount]=useState("No account Connected");
   const betval=0.0008;
 
    const {contract}=state;
+
+   setInterval(async ()=>{
+    const getplayers_arr=await contract.getplayers_arr();
+    setPlayerDetails(getplayers_arr);
+   },1000);
 
    useEffect(()=>{
     const getinfo=async()=>{
     const getplayers_arr=await contract.getplayers_arr();
     console.log(getplayers_arr);
     setPlayerDetails(getplayers_arr);
-
-    const getplayerbalance=await contract.registered_Users(account);
+  
+    const bonus=await contract.bonus();
+    setbonusval(bonus);
+ 
+    const pfee=await contract.platformfee();
+    setpfee(pfee);
+    // const getplayerbalance=await contract.registered_Users(account);
     
-    setwin_wallet(ethers.formatEther(getplayerbalance).toString());
+    // setwin_wallet(ethers.formatEther(getplayerbalance).toString());
     };
 
     contract && getinfo();
    },[contract,account,playerDetails.length]);
 
+
+   setInterval(async ()=>{
+    const bonus=await contract.bonus();
+    setbonusval(bonus);
+     
+    const getplayerbalance=await contract.registered_Users(account);
+    // if(Number(ethers.formatEther(getplayerbalance).toString())>2)
+    //  {   const val=Number(ethers.formatEther(getplayerbalance).toString());
+    //      const updatedval=val+Number(bonus);
+    //     await contract.update_wallet(account,ethers.parseEther(updatedval.toString()));
+    //  }
+     // But after updating the balance , if bal= 2.2 eth...again bonus will come we have to overcome this.
+    setwin_wallet(ethers.formatEther(getplayerbalance).toString());
+
+    const pfee=await contract.platformfee();
+    setpfee(pfee);
+
+   },2000);
+
    
-  //  useEffect(()=>{
-  // const func=async ()=>{
-  //   const accounts=await state.provider.listAccounts();
-  //   setaccount(accounts[0].address);
-  // }
-
-  // func();
-  //  },[state]);
-
-
-
   const tranferHandler=async ()=>{
     await contract.transfer_bet_from_game_to_acc();
     const getplayerbalance=await contract.registered_Users(account);
@@ -47,17 +68,29 @@ const PlayersFormationPage = ({state,account}) => {
   const handleSubmit = async (e) => {
 
     e.preventDefault(); 
-    if(amount===betval.toString())
+    if(playerDetails.length<4)
+    {
+      if(amount===betval.toString())
     {
       const {contract}=state;
-      const amount={ value : ethers.parseEther("0.008")};
-      await contract.Play_poker(nickname,amount);
+      const val=betval+Number(pfee);
+      const amount={ value : ethers.parseEther(val.toString()) };
+      await contract.Play_poker(nickname,ethers.parseEther(pfee),amount);
+      // const platformfee={ value : ethers.parseEther(pfee) }
+      // await contract.payplatformfee(platformfee);
       console.log("Transaction done...");
     }
 
     else 
     {
       console.log("Invalid Bet amount");
+    }
+
+    }
+
+    else
+    {
+      console.log("Round is full");
     }
 
     setNickname("");
@@ -155,10 +188,29 @@ const PlayersFormationPage = ({state,account}) => {
 
       </div>
 
+
+      <div className="absolute bottom-0 left-0 mb-8 ml-[45rem]  flex">
+     <p className="ml-6 mt-6 p-2 text-white font-bold">Bonus Value :</p>
+     <div className="bg-[#FFFDD0] rounded-lg flex ml-2 mt-6 p-2">
+       <p className="font-bold text-[red]">{bonusval} Eth</p>
+     </div>
+
+      </div>
+
+      <div className="absolute top-0 left-0 mt-0 ml-[8rem]  flex">
+     <p className="ml-6 mt-6 p-2 text-white font-bold">Plaform Fee:</p>
+     <div className="bg-[#FFFDD0] rounded-lg flex ml-2 mt-6 p-2">
+       <p className="font-bold text-[red]">{pfee} Eth</p>
+     </div>
+
+      </div>
+
+      
+
       {
         win_wallet!=="0.0" && 
         <button onClick={tranferHandler} className="bg-[blue] text-[white] font-bold w-[6rem] h-[2.5rem] rounded-lg hover:bg-[gold]
-        hover:text-[red] absolute bottom-0 mb-8 right-0 mr-[35rem]" type="submit">
+        hover:text-[red] absolute bottom-0 mb-8 right-0 mr-[55rem]" type="submit">
           Transfer
        </button>
       }

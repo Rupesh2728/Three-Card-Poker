@@ -6,8 +6,24 @@ const Game = ({state,account}) => {
   const [reveal,setreveal]=useState(false); 
   const [playerDetails, setPlayerDetails] = useState([]); 
   const [winnerarr,setwinnerarr]=useState([]); 
+  const [winnerflag,setwinnerflag] = useState(null);
   const betval=0.0008;
   const {contract}=state;
+   
+
+  setInterval(()=>{
+    if(winnerarr.length!==0)
+    {   
+        for(let i=0;i<winnerarr.length;i++)
+         {  if(winnerarr[i]===account)
+           {
+               setwinnerflag(true);
+           }
+         }
+
+         setwinnerflag(false);
+    }
+  },3000);
   
   const onClickHandler=()=>{
     setreveal(true);
@@ -16,6 +32,8 @@ const Game = ({state,account}) => {
       const winnerarr=await contract.getwinners_arr();
       setwinnerarr(winnerarr);
     },5000);
+
+    console.log(winnerarr);
   }
 
   const exitHandler=async ()=>{
@@ -38,7 +56,7 @@ const Game = ({state,account}) => {
     <div 
     className='bg-[url("https://png.pngtree.com/thumb_back/fh260/background/20200728/pngtree-poker-casino-betting-dice-chips-border-background-image_372331.jpg")] bg-cover h-screen'>
       
-      <Link to="/takeplayers">
+      <Link to="/">
       <button onClick={exitHandler} className="hover:bg-[gold] hover:text-[red] bg-[red] text-[white]  text-[1.2rem] font-bold py-2 px-4 absolute top-0 left-0 mt-6 ml-6 flex rounded">
      <div className="flex">
          Exit Game
@@ -112,78 +130,35 @@ const Game = ({state,account}) => {
          })
       }
       
-      {/* <div>
-      <p className='flex justify-center'>
-        <img src="https://i.pinimg.com/736x/6d/1e/bf/6d1ebf50b4a2c395dabbd4f8c1670c4b.jpg"
-        className='w-[1.8rem] h-[1.6rem] rounded-[50%]' alt=''/>
-        <span className='font-bold text-[gold] ml-2'>Player-4</span></p>
-      <div className='flex'>
-       <OtherPlayerCard suit="1" value="0" reveal={reveal} className="m-3 w-[3rem]"/>
-       <OtherPlayerCard suit="0" value="12"  reveal={reveal} className="m-3 w-[3rem]"/>
-       <OtherPlayerCard suit="4" value="9"  reveal={reveal} className="m-3 w-[3rem]"/>
-      </div>
       </div>
 
-      <div>
-      <p className='flex justify-center'>
-        <img src="https://i.pinimg.com/originals/8e/d4/04/8ed4040e06e68818a07c3e15ac7c18dc.jpg"
-        className='w-[1.8rem] h-[1.8rem] rounded-[50%]' alt=''/>
-        <span className='font-bold text-[gold] ml-2'>Player-2</span></p>
-      <div className='flex'>
-      <OtherPlayerCard suit="1" value="0" reveal={reveal} className="m-3 w-[3rem]"/>
-       <OtherPlayerCard suit="0" value="12"  reveal={reveal} className="m-3 w-[3rem]"/>
-       <OtherPlayerCard suit="4" value="9"  reveal={reveal} className="m-3 w-[3rem]"/>
-      </div>
-      </div>
-
-      <div>
-      <p className='flex justify-center'>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlYZQyr7v9wU07m_3mytH0EDrFZeNhpGGnnxyzNLTrPTKEASMU764CVs3CQrvHW57YHkA&usqp=CAU"
-        className='w-[1.8rem] h-[1.6rem] rounded-[50%]' alt=''/>
-        <span className='font-bold text-[gold] ml-2'>Player-3</span></p>
-      <div className='flex'>
-      <OtherPlayerCard suit="1" value="0" reveal={reveal} className="m-3 w-[3rem]"/>
-       <OtherPlayerCard suit="0" value="12"  reveal={reveal} className="m-3 w-[3rem]"/>
-       <OtherPlayerCard suit="4" value="9"  reveal={reveal} className="m-3 w-[3rem]"/>
-      </div>
-      </div> */}
-
-      </div>
-
-      <div className='flex justify-center absolute top-0 ml-[40rem] mt-[16rem]'>
+      <div className='flex justify-center absolute top-0 ml-[32rem] mt-[16rem]'>
          {
-           winnerarr.length===1 && winnerarr.map(winner=>{
-            return (winner===account &&
-            <p className='text-[gold] font-bold text-[3rem] flex'>
-            <span className='mt-4 mr-2'>YOU WON {(4*betval).toString()} ETH </span>
-            <img src='https://images.emojiterra.com/google/android-oreo/512px/1f389.png' alt='' className='w-[5rem] h-[5rem]'/>
-           </p> )
-           })
+           winnerflag!==null && winnerarr.length===1 && winnerflag &&  
+           <p className='text-[gold] font-bold text-[3rem] flex'>
+              <span className='mt-4 mr-2'>YOU WON {(4*betval).toString()} ETH </span>
+              <img src='https://images.emojiterra.com/google/android-oreo/512px/1f389.png' alt='' className='w-[5rem] h-[5rem]'/>
+          </p>
          }
 
 
          {
-           winnerarr.length===1 && winnerarr.map(winner=>{
-            return (winner!==account &&
-              <p className='text-[pink] font-bold text-[3rem] flex'>
-                 <span className='mt-4 mr-2'>YOU LOST... </span>
-              </p>)
-           })
+            winnerflag!==null && !winnerflag &&  
+           <p className='text-[pink] font-bold text-[3rem] ml-[8rem] flex'>
+             <span className='mt-4 mr-2'>YOU LOST... </span>
+          </p>
          }   
          
       </div>
 
     
       {
-           winnerarr.length>1 && winnerarr.map(winner=>{
-            return (winner===account && 
-              <div className='flex justify-center absolute top-0 ml-[30rem]  mt-[17rem]'>
-              <p className='text-blue-300 font-bold text-[2rem] flex'>
-                    <span className='mt-4 mr-2'>YOU'RE ONE AMONG THE WINNERS...</span>
-                 </p>
-              </div>
-            )
-           })
+            winnerflag!==null && winnerarr.length>1 && winnerflag && 
+           <div className='flex justify-center absolute top-0 ml-[30rem]  mt-[17rem]'>
+           <p className='text-blue-300 font-bold text-[2rem] flex'>
+              <span className='mt-4 mr-2'>YOU'RE ONE AMONG THE WINNERS...</span>
+           </p>
+           </div>
       }
 
 
