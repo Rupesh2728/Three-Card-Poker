@@ -10,7 +10,7 @@ const PlayersFormationPage = ({state,account}) => {
   const [pfee,setpfee]=useState("");
   const [bonusval,setbonusval] = useState("");
   const [displaymsg,setdisplaymsg] = useState("");
-
+  const [addbtn,setaddbtn] = useState(true);
   // const [account,setaccount]=useState("No account Connected");
   const betval=0.0008;
 
@@ -26,6 +26,14 @@ const PlayersFormationPage = ({state,account}) => {
     const getplayers_arr=await contract.getplayers_arr();
     console.log(getplayers_arr);
     setPlayerDetails(getplayers_arr);
+
+    for(let i=0;i<getplayers_arr.length;i++)
+    {
+      if(getplayers_arr[i].player_address===account)
+      {
+          setaddbtn(false);
+      }
+    }
   
     const bonus=await contract.bonus();
     setbonusval(bonus);
@@ -146,7 +154,7 @@ const PlayersFormationPage = ({state,account}) => {
           />
         </div>
 
-        {playerDetails.length!==4 && 
+        {playerDetails.length!==4 && addbtn && 
         <button className="bg-green-600 font-bold text-white w-[6rem] h-[2.5rem] ml-[10rem] rounded-lg hover:bg-blue-600 mt-6" type="submit">
           Add Bet
         </button> }

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import {ethers } from "ethers";
 import startbtnlogo from '../Assests/startbtnlogo.png';
 
-// 0x14B76f7F97D7de95253C3bb8F7Eb5346Ea75fF97
+// 0x47CcbA8Ca32D4a781FEd5FE5Ffb89A68D85394E7
 const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
   const [account,setaccount]=useState("No account Connected");
@@ -12,7 +12,7 @@ const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
   const onClickHandler=()=>{
     const connetWallet=async()=>{
-      const contractAddress="0x14B76f7F97D7de95253C3bb8F7Eb5346Ea75fF97";
+      const contractAddress="0x47CcbA8Ca32D4a781FEd5FE5Ffb89A68D85394E7";
       const contractABI=abi.abi;
       try{
         const {ethereum} = window;

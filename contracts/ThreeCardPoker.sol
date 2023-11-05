@@ -20,7 +20,7 @@ contract ThreeCardPoker
           // King => hearts 
      }
  
-
+    bool setwinner=false;
     string public platformfee;
     uint public owners_bal;
     string public bonus;
@@ -113,7 +113,9 @@ contract ThreeCardPoker
              winners.push(participents[i].player_address);
         }
 
-        uint balance;
+        if(setwinner==false)
+        {
+           uint balance;
 
         if(prevroundbalance<address(this).balance)
           balance=address(this).balance-prevroundbalance;
@@ -129,12 +131,17 @@ contract ThreeCardPoker
           registered_Users[winners[i]]+=final_prize;
        }
 
+        setwinner=true;
+        }
+       
+
     }
 
     function exit_game() public  
     {
         delete winners;
-       delete participents;
+        delete participents;
+        setwinner=false;
     }
 
     function transfer_bet_from_game_to_acc() public payable 
