@@ -5,35 +5,60 @@ import { Link } from 'react-router-dom';
 const Game = ({state,account}) => {
   const [reveal,setreveal]=useState(false); 
   const [playerDetails, setPlayerDetails] = useState([]); 
+  
   const [winnerarr,setwinnerarr]=useState([]); 
-  const [winnerflag,setwinnerflag] = useState(null);
+  const [winnerflag,setwinnerflag] = useState(false);
   const betval=0.0008;
   const {contract}=state;
    
+  // useEffect(()=>{
+  //   if(winnerarr.length!==0)
+  //   {   
+  //       for(let i=0;i<winnerarr.length;i++)
+  //        {  if(winnerarr[i]===account)
+  //          {
+  //              setwinnerflag(true);
+  //          }
+  //        }
 
-  setInterval(()=>{
-    if(winnerarr.length!==0)
-    {   
-        for(let i=0;i<winnerarr.length;i++)
-         {  if(winnerarr[i]===account)
-           {
-               setwinnerflag(true);
-           }
-         }
+  //        setwinnerflag(false);
+  //   }  
+  // },[winnerarr,account]);
+  // setInterval(()=>{
+  //   if(winnerarr.length!==0)
+  //   {   
+  //       for(let i=0;i<winnerarr.length;i++)
+  //        {  if(winnerarr[i]===account)
+  //          {
+  //              setwinnerflag(true);
+  //          }
+  //        }
 
-         setwinnerflag(false);
-    }
-  },3000);
+  //        setwinnerflag(false);
+  //   }
+  // },3000);
   
   const onClickHandler=()=>{
     setreveal(true);
     setTimeout(async ()=>{
-      await contract.select_Winner();
+      const tx = await contract.select_Winner();
+      await tx.wait();
       const winnerarr=await contract.getwinners_arr();
-      setwinnerarr(winnerarr);
-    },5000);
+      const parsed_winner_arr=JSON.parse(JSON.stringify(winnerarr));
+      const uniqueArray = [...new Set(parsed_winner_arr)];
+      console.log(uniqueArray);
+      console.log(account);
+     
+        for(let i=0;i<uniqueArray.length;i++)
+         {  if(((uniqueArray).toString())===account.toString())
+           {
+               setwinnerflag(true);
+           }  
+         }
 
-    console.log(winnerarr);
+        console.log(winnerflag);
+      setwinnerarr(uniqueArray);
+    },3000);
   }
 
   const exitHandler=async ()=>{
@@ -44,7 +69,7 @@ const Game = ({state,account}) => {
   useEffect(()=>{
     const getinfo=async()=>{
     const getplayers_arr=await contract.getplayers_arr();
-    console.log(getplayers_arr);
+    // console.log(getplayers_arr);
     setPlayerDetails(getplayers_arr);
     };
 
@@ -133,17 +158,17 @@ const Game = ({state,account}) => {
       </div>
 
       <div className='flex justify-center absolute top-0 ml-[32rem] mt-[16rem]'>
-         {
-           winnerflag!==null && winnerarr.length===1 && winnerflag &&  
-           <p className='text-[gold] font-bold text-[3rem] flex'>
-              <span className='mt-4 mr-2'>YOU WON {(4*betval).toString()} ETH </span>
-              <img src='https://images.emojiterra.com/google/android-oreo/512px/1f389.png' alt='' className='w-[5rem] h-[5rem]'/>
-          </p>
+         {  
+           winnerarr.length!==0 && winnerarr.length===1 && winnerflag===true &&
+              <p className='text-[gold] font-bold text-[3rem] flex'>
+                <span className='mt-4 mr-2'>YOU WON {(4*betval).toString()} ETH </span>
+                <img src='https://images.emojiterra.com/google/android-oreo/512px/1f389.png' alt='' className='w-[5rem] h-[5rem]'/>
+              </p>    
          }
 
 
-         {
-            winnerflag!==null && !winnerflag &&  
+         {  
+             winnerarr.length!==0 && winnerflag===false &&  winnerarr.length>=1 &&
            <p className='text-[pink] font-bold text-[3rem] ml-[8rem] flex'>
              <span className='mt-4 mr-2'>YOU LOST... </span>
           </p>
@@ -153,15 +178,13 @@ const Game = ({state,account}) => {
 
     
       {
-            winnerflag!==null && winnerarr.length>1 && winnerflag && 
+            winnerflag!==null && winnerarr.length>1 && winnerflag===true && 
            <div className='flex justify-center absolute top-0 ml-[30rem]  mt-[17rem]'>
            <p className='text-blue-300 font-bold text-[2rem] flex'>
               <span className='mt-4 mr-2'>YOU'RE ONE AMONG THE WINNERS...</span>
            </p>
            </div>
       }
-
-
     </div>
   )
 }

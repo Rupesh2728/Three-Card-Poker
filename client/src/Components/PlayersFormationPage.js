@@ -9,16 +9,17 @@ const PlayersFormationPage = ({state,account}) => {
   const [win_wallet,setwin_wallet] = useState("0.0");
   const [pfee,setpfee]=useState("");
   const [bonusval,setbonusval] = useState("");
+  const [displaymsg,setdisplaymsg] = useState("");
 
   // const [account,setaccount]=useState("No account Connected");
   const betval=0.0008;
 
    const {contract}=state;
 
-   setInterval(async ()=>{
-    const getplayers_arr=await contract.getplayers_arr();
-    setPlayerDetails(getplayers_arr);
-   },1000);
+  //  setInterval(async ()=>{
+  //   const getplayers_arr=await contract.getplayers_arr();
+  //   setPlayerDetails(getplayers_arr);
+  //  },500);
 
    useEffect(()=>{
     const getinfo=async()=>{
@@ -31,32 +32,34 @@ const PlayersFormationPage = ({state,account}) => {
  
     const pfee=await contract.platformfee();
     setpfee(pfee);
+     
+    const getplayerbalance=await contract.registered_Users(account);
+    setwin_wallet(ethers.formatEther(getplayerbalance).toString());
+
+    if(playerDetails.length===4)
+      setdisplaymsg("***Room Limit reached, Please wait for next round... ");
+    else
+      setdisplaymsg(""); 
+
     // const getplayerbalance=await contract.registered_Users(account);
     
     // setwin_wallet(ethers.formatEther(getplayerbalance).toString());
     };
 
-    contract && getinfo();
-   },[contract,account,playerDetails.length]);
+    getinfo();
+   },[contract,account,playerDetails]);
 
 
-   setInterval(async ()=>{
-    const bonus=await contract.bonus();
-    setbonusval(bonus);
-     
-    const getplayerbalance=await contract.registered_Users(account);
-    // if(Number(ethers.formatEther(getplayerbalance).toString())>2)
-    //  {   const val=Number(ethers.formatEther(getplayerbalance).toString());
-    //      const updatedval=val+Number(bonus);
-    //     await contract.update_wallet(account,ethers.parseEther(updatedval.toString()));
-    //  }
-     // But after updating the balance , if bal= 2.2 eth...again bonus will come we have to overcome this.
-    setwin_wallet(ethers.formatEther(getplayerbalance).toString());
-
-    const pfee=await contract.platformfee();
-    setpfee(pfee);
-
-   },2000);
+  //  setInterval(async ()=>{ 
+  //   const getplayerbalance=await contract.registered_Users(account);
+  //   // if(Number(ethers.formatEther(getplayerbalance).toString())>2)
+  //   //  {   const val=Number(ethers.formatEther(getplayerbalance).toString());
+  //   //      const updatedval=val+Number(bonus);
+  //   //     await contract.update_wallet(account,ethers.parseEther(updatedval.toString()));
+  //   //  }
+  //    // But after updating the balance , if bal= 2.2 eth...again bonus will come we have to overcome this.
+  //   setwin_wallet(ethers.formatEther(getplayerbalance).toString());
+  //  },2000);
 
    
   const tranferHandler=async ()=>{
@@ -76,8 +79,6 @@ const PlayersFormationPage = ({state,account}) => {
       const val=betval+Number(pfee);
       const amount={ value : ethers.parseEther(val.toString()) };
       await contract.Play_poker(nickname,ethers.parseEther(pfee),amount);
-      // const platformfee={ value : ethers.parseEther(pfee) }
-      // await contract.payplatformfee(platformfee);
       console.log("Transaction done...");
     }
 
@@ -100,7 +101,7 @@ const PlayersFormationPage = ({state,account}) => {
 
 
   return (
-    <div className="h-screen container mx-auto bg-no-repeat bg-cover bg-[url('https://png.pngtree.com/thumb_back/fh260/background/20210902/pngtree-casino-chip-with-poker-background-image_786808.jpg')]">
+    <div className="cursor-pointer h-screen container mx-auto bg-no-repeat bg-cover bg-[url('https://png.pngtree.com/thumb_back/fh260/background/20210902/pngtree-casino-chip-with-poker-background-image_786808.jpg')]">
       <div className="m-auto flex justify-between">
      
       <div className="bg-[#FFFDD0] rounded-lg flex ml-6 mt-5 p-2 py-3">
@@ -109,7 +110,7 @@ const PlayersFormationPage = ({state,account}) => {
 
      
       
-        <h1 className="text-[2rem] font-bold mt-5 ml-[6rem] text-[orange]">Players per round : 4</h1>
+        <h1 className="text-[2rem] font-bold mt-5 ml-[15rem] text-[orange]">Players per round : 4</h1>
 
         <div className="bg-[#FFFDD0] rounded-lg flex mr-6 mt-5 p-2 py-3">
          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/800px-MetaMask_Fox.svg.png"
@@ -117,6 +118,8 @@ const PlayersFormationPage = ({state,account}) => {
         <p className="font-bold">{account}</p>
       </div>
       </div>
+
+      <p className="text-[1rem] font-bold mt-8 ml-[40rem]  text-[white]">{displaymsg}</p>
 
 
 
@@ -143,9 +146,10 @@ const PlayersFormationPage = ({state,account}) => {
           />
         </div>
 
+        {playerDetails.length!==4 && 
         <button className="bg-green-600 font-bold text-white w-[6rem] h-[2.5rem] ml-[10rem] rounded-lg hover:bg-blue-600 mt-6" type="submit">
           Add Bet
-        </button>
+        </button> }
       </form>
 
 
@@ -189,7 +193,7 @@ const PlayersFormationPage = ({state,account}) => {
       </div>
 
 
-      <div className="absolute bottom-0 left-0 mb-8 ml-[45rem]  flex">
+      <div className="absolute bottom-0 left-0 mb-8 ml-[38rem]  flex">
      <p className="ml-6 mt-6 p-2 text-white font-bold">Bonus Value :</p>
      <div className="bg-[#FFFDD0] rounded-lg flex ml-2 mt-6 p-2">
        <p className="font-bold text-[red]">{bonusval} Eth</p>
@@ -210,7 +214,7 @@ const PlayersFormationPage = ({state,account}) => {
       {
         win_wallet!=="0.0" && 
         <button onClick={tranferHandler} className="bg-[blue] text-[white] font-bold w-[6rem] h-[2.5rem] rounded-lg hover:bg-[gold]
-        hover:text-[red] absolute bottom-0 mb-8 right-0 mr-[55rem]" type="submit">
+        hover:text-[red] absolute bottom-0 mb-8 right-0 mr-[58rem]" type="submit">
           Transfer
        </button>
       }
