@@ -23,9 +23,12 @@ contract ThreeCardPoker
     bool setwinner=false;
     string public platformfee;
     uint public owners_bal;
-    string public bonus;
+    uint public bonus;
     uint prevroundbalance;
     mapping(address=>uint) public registered_Users;
+    mapping(address=>uint) public num_games_played_users;
+    address[] public exiting_Users;
+
     address[] public winners;
     address public manager;
     Player[] public participents;
@@ -36,7 +39,7 @@ contract ThreeCardPoker
         manager=msg.sender;
         platformfee="0";
         owners_bal=0;
-        bonus="0";
+        bonus=0;
     }
 
     function getOwnerBalance() public view returns(uint)
@@ -49,7 +52,7 @@ contract ThreeCardPoker
         platformfee=pfee;
     } 
 
-    function setBonus(string memory _bonus) public 
+    function setBonus(uint _bonus) public 
     {   require(msg.sender==manager);
         bonus=_bonus;
     }
@@ -90,9 +93,19 @@ contract ThreeCardPoker
          return address(this).balance;
     }
 
+    function exiting_players_length() public view returns(uint)
+    {
+         return exiting_Users.length;
+    }
+
+    function num_games_played() public view returns(uint)
+    {
+         return num_games_played_users[msg.sender];
+    }
+
     
     function select_Winner() public payable {
-        require(participents.length==4,"Min 3 participents are req..."); 
+        require(participents.length==4,"4 participants only allowed..."); 
         uint maxscore=0;
 
         for(uint i=0;i<participents.length;i++)
@@ -113,6 +126,12 @@ contract ThreeCardPoker
              winners.push(participents[i].player_address);
         }
 
+        num_games_played_users[msg.sender]+=1;
+        if((num_games_played_users[msg.sender])%10==0)
+        {
+            registered_Users[msg.sender]+=bonus;
+        }
+
         if(setwinner==false)
         {
            uint balance;
@@ -123,7 +142,7 @@ contract ThreeCardPoker
           balance=prevroundbalance-address(this).balance;
 
         prevroundbalance+=balance;
-
+       
         uint final_prize=balance/winners.length;
 
         for(uint i=0;i<winners.length;i++)
@@ -131,17 +150,30 @@ contract ThreeCardPoker
           registered_Users[winners[i]]+=final_prize;
        }
 
+        // for(uint i=0;i<participents.length;i++)
+        // {  
+        //    bonus_Users[participents[i].player_address]+=1;
+
+        //    if((bonus_Users[participents[i].player_address])%10==0)
+        //    {
+        //         registered_Users[participents[i].player_address]+=bonus;
+        //    }
+        // }
+
         setwinner=true;
         }
-       
-
     }
 
     function exit_game() public  
     {
         delete winners;
-        delete participents;
-        setwinner=false;
+        exiting_Users.push(msg.sender);
+        if(exiting_Users.length==4)
+        {
+             delete participents;
+              setwinner=false;
+             delete exiting_Users;
+        }
     }
 
     function transfer_bet_from_game_to_acc() public payable 

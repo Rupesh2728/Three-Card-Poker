@@ -11,6 +11,8 @@ const PlayersFormationPage = ({state,account}) => {
   const [bonusval,setbonusval] = useState("");
   const [displaymsg,setdisplaymsg] = useState("");
   const [addbtn,setaddbtn] = useState(true);
+  const [numgames,setnumgames] = useState("");
+  const [exiting_players,setexiting_players] = useState("");
   // const [account,setaccount]=useState("No account Connected");
   const betval=0.0008;
 
@@ -36,22 +38,24 @@ const PlayersFormationPage = ({state,account}) => {
     }
   
     const bonus=await contract.bonus();
-    setbonusval(bonus);
+    setbonusval((ethers.formatEther(bonus)).toString());
  
     const pfee=await contract.platformfee();
     setpfee(pfee);
+
+    const numgamesplayed=await contract.num_games_played();
+    setnumgames(numgamesplayed.toString());
+
+    const exiting_players=await contract.exiting_players_length();
+    setexiting_players(exiting_players.toString());
      
     const getplayerbalance=await contract.registered_Users(account);
-    setwin_wallet(ethers.formatEther(getplayerbalance).toString());
+    setwin_wallet((ethers.formatEther(getplayerbalance)).toString());
 
     if(playerDetails.length===4)
       setdisplaymsg("***Room Limit reached, Please wait for next round... ");
     else
       setdisplaymsg(""); 
-
-    // const getplayerbalance=await contract.registered_Users(account);
-    
-    // setwin_wallet(ethers.formatEther(getplayerbalance).toString());
     };
 
     getinfo();
@@ -128,6 +132,11 @@ const PlayersFormationPage = ({state,account}) => {
       </div>
 
       <p className="text-[1rem] font-bold mt-8 ml-[40rem]  text-[white]">{displaymsg}</p>
+
+      <div className="bg-[#FFFDD0] rounded-lg flex ml-6 mt-5 p-2 py-3 absolute right-0 mr-6">
+        <p className="font-bold text-[black]">Games Played : {numgames}</p>
+      </div>
+
 
 
 
@@ -229,14 +238,19 @@ const PlayersFormationPage = ({state,account}) => {
 
 
      <Link to="/game">
-     {playerDetails.length===4 && 
-     <button className="bg-green-600 hover:bg-[gold] hover:text-[red] text-[white] text-[1.5rem] font-bold py-4 px-8 mt-10 absolute bottom-0 left-0 mb-8 ml-8 flex rounded">
-       <div className="flex">
-         <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/casino-coin-2870771-2385686.png"
-         className="w-[1.6rem] h-[1.8rem] mr-2 mt-1" alt=""/>
-         Start Game
-       </div>
-     </button>}
+     {playerDetails.length===4 && exiting_players!=="" && exiting_players==="0" && 
+       playerDetails.map((player)=>{
+          return (player.player_address===account && 
+          <button className="bg-green-600 hover:bg-[gold] hover:text-[red] text-[white] text-[1.5rem] font-bold py-4 px-8 mt-10 absolute bottom-0 left-0 mb-8 ml-8 flex rounded">
+          <div className="flex">
+            <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/casino-coin-2870771-2385686.png"
+            className="w-[1.6rem] h-[1.8rem] mr-2 mt-1" alt=""/>
+            Start Game
+          </div>
+        </button>
+        )
+       })
+     }
      </Link>
       
     </div>

@@ -21,7 +21,7 @@ const Owner = ({state}) => {
  
     const bonusHandler = async (e) => {
       e.preventDefault(); 
-      await contract.setBonus(bonus);
+      await contract.setBonus(ethers.parseEther(bonus));
       setbonus("");
     };
 
@@ -32,7 +32,7 @@ const Owner = ({state}) => {
      
 
         const bonus=await contract.bonus();
-        setbonusval(bonus);
+        setbonusval((ethers.formatEther(bonus)).toString());
       
  
         const ownerbal=await contract.getOwnerBalance();
@@ -52,24 +52,24 @@ const Owner = ({state}) => {
     },[contract,owner]);
 
 
-    setInterval(async ()=>{
-      const owneraddress=await contract.manager();
-      setowner(owneraddress.toString());
+    // setInterval(async ()=>{
+    //   const owneraddress=await contract.manager();
+    //   setowner(owneraddress.toString());
      
       
-      const bonus=await contract.bonus();
-      setbonusval(bonus);
+    //   const bonus=await contract.bonus();
+    //   setbonusval(bonus);
 
-          const ownerbal=await contract.getOwnerBalance();
-        setownerbal((ethers.formatEther(ownerbal)).toString());
+    //       const ownerbal=await contract.getOwnerBalance();
+    //     setownerbal((ethers.formatEther(ownerbal)).toString());
     
 
-       const pfee=await contract.platformfee();
-       setpfee(pfee);
+    //    const pfee=await contract.platformfee();
+    //    setpfee(pfee);
 
-       const getplayers_arr=await contract.getplayers_arr();
-       setPlayerDetails(getplayers_arr);
-    },2000);
+    //    const getplayers_arr=await contract.getplayers_arr();
+    //    setPlayerDetails(getplayers_arr);
+    // },2000);
   
   
     return (
