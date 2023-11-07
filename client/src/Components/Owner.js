@@ -49,7 +49,7 @@ const Owner = ({state}) => {
        }
 
        getdetails();
-    },[contract,owner]);
+    },[contract]);
 
 
     // setInterval(async ()=>{

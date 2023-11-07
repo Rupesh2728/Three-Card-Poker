@@ -14,9 +14,9 @@ const PlayersFormationPage = ({state,account}) => {
   const [numgames,setnumgames] = useState("");
   const [exiting_players,setexiting_players] = useState("");
   // const [account,setaccount]=useState("No account Connected");
-  const betval=0.0008;
+  const betval=0.0007;
 
-   const {contract}=state;
+  const {contract}=state;
 
   //  setInterval(async ()=>{
   //   const getplayers_arr=await contract.getplayers_arr();
@@ -29,13 +29,24 @@ const PlayersFormationPage = ({state,account}) => {
     console.log(getplayers_arr);
     setPlayerDetails(getplayers_arr);
 
-    for(let i=0;i<getplayers_arr.length;i++)
+    
+    if(getplayers_arr.length!==0)
     {
-      if(getplayers_arr[i].player_address===account)
+      for(let i=0;i<getplayers_arr.length;i++)
       {
-          setaddbtn(false);
+        if(getplayers_arr[i].player_address===account)
+        {
+            setaddbtn(false);
+        }
       }
+
     }
+
+    else
+    {
+         setaddbtn(true);
+    }
+    
   
     const bonus=await contract.bonus();
     setbonusval((ethers.formatEther(bonus)).toString());
