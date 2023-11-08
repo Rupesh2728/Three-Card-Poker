@@ -19,6 +19,7 @@ contract ThreeCardPoker
          uint score;
           // King => hearts 
      }
+
  
     bool setwinner=false;
     string public platformfee;
@@ -27,6 +28,7 @@ contract ThreeCardPoker
     uint prevroundbalance;
     mapping(address=>uint) public registered_Users;
     mapping(address=>uint) public num_games_played_users;
+    mapping(address=>uint) public Bonus_Users;
     address[] public exiting_Users;
 
     address[] public winners;
@@ -80,11 +82,9 @@ contract ThreeCardPoker
     }
 
 
-    function Play_poker(string memory _name,uint pfee) public payable 
+    function Play_poker(string memory _name) public payable 
     {   
         participents.push(Player(_name,msg.sender,Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),Random_Suit(),Random_CardNum(),0));
-
-        payplatformfee(pfee);
     }
 
 
@@ -129,7 +129,7 @@ contract ThreeCardPoker
         num_games_played_users[msg.sender]+=1;
         if((num_games_played_users[msg.sender])%10==0)
         {
-            registered_Users[msg.sender]+=bonus;
+            Bonus_Users[msg.sender]+=bonus;
         }
 
         if(setwinner==false)
@@ -181,6 +181,14 @@ contract ThreeCardPoker
         uint value=registered_Users[msg.sender];
         payable(msg.sender).transfer(value);
         registered_Users[msg.sender]=0;
+    }
+
+
+    function transfer_bonus_from_contract_to_acc() public payable
+    {
+        uint value=Bonus_Users[msg.sender];
+        payable(msg.sender).transfer(value);
+        Bonus_Users[msg.sender]=0;
     }
 
 

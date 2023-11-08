@@ -13,7 +13,8 @@ const PlayersFormationPage = ({state,account}) => {
   const [addbtn,setaddbtn] = useState(true);
   const [numgames,setnumgames] = useState("");
   const [exiting_players,setexiting_players] = useState("");
-  // const [account,setaccount]=useState("No account Connected");
+  const [player_bonus_amount,setplayer_bonus_amount] = useState();
+
   const betval=0.0008;
 
   const {contract}=state;
@@ -45,6 +46,9 @@ const PlayersFormationPage = ({state,account}) => {
     {
          setaddbtn(true);
     }
+
+    const player_bonus_val=await contract.Bonus_Users(account);
+    setplayer_bonus_amount((ethers.formatEther(player_bonus_val)).toString());
     
   
     const bonus=await contract.bonus();
@@ -90,6 +94,13 @@ const PlayersFormationPage = ({state,account}) => {
     setwin_wallet(ethers.formatEther(getplayerbalance).toString());
   }
 
+  const bonus_tranferHandler=async()=>{
+     await contract.transfer_bonus_from_contract_to_acc();
+     const player_bonus_val=await contract.Bonus_Users(account);
+     setplayer_bonus_amount((ethers.formatEther(player_bonus_val)).toString());
+  }
+
+
   const handleSubmit = async (e) => {
 
     e.preventDefault(); 
@@ -101,7 +112,7 @@ const PlayersFormationPage = ({state,account}) => {
       const val=betval+Number(pfee);
       console.log(val);
       const amount={ value : ethers.parseEther(val.toString()) };
-      await contract.Play_poker(nickname,ethers.parseEther(pfee),amount);
+      await contract.Play_poker(nickname,amount);
       console.log("Transaction done...");
     }
 
@@ -144,9 +155,21 @@ const PlayersFormationPage = ({state,account}) => {
 
       <p className="text-[1rem] font-bold mt-8 ml-[40rem]  text-[white]">{displaymsg}</p>
 
-      <div className="bg-[#FFFDD0] rounded-lg flex ml-6 mt-5 p-2 py-3 absolute right-0 mr-6">
+      <div className="bg-[#FFFDD0] rounded-lg flex ml-6 p-2 py-3 absolute right-0 mr-6">
         <p className="font-bold text-[black]">Games Played : {numgames}</p>
       </div>
+
+      <div className="bg-[#FFFDD0] rounded-lg flex p-2 py-3 absolute right-0 mr-[15rem]">
+        <p className="font-bold text-[black]">Bonus Earned : {player_bonus_amount}</p>
+      </div>
+
+      {
+        player_bonus_amount!=="" && player_bonus_amount!=="0.0" && 
+        <button onClick={bonus_tranferHandler} className="bg-[blue] text-[white] mt-1 font-bold w-[8rem] h-[2.8rem] rounded-lg hover:bg-[gold]
+        hover:text-[red] absolute right-0 mr-[30rem]" type="submit">
+          Transfer Bonus
+         </button>
+      }
 
 
 
@@ -164,7 +187,7 @@ const PlayersFormationPage = ({state,account}) => {
           />
         </div>
 
-        <div className="mb-2 ml-[10rem]">
+        <div className="mb-2 ml-[6rem]">
           <label className="block text-sm font-medium text-green-200">Amount (in Ether)</label>
           <input
             type="text"
@@ -175,7 +198,7 @@ const PlayersFormationPage = ({state,account}) => {
         </div>
 
         {playerDetails.length!==4 && addbtn && 
-        <button className="bg-green-600 font-bold text-white w-[6rem] h-[2.5rem] ml-[10rem] rounded-lg hover:bg-blue-600 mt-6" type="submit">
+        <button className="bg-green-600 font-bold text-white w-[6rem] h-[2.5rem] ml-[8rem] rounded-lg hover:bg-blue-600 mt-6" type="submit">
           Add Bet
         </button> }
       </form>

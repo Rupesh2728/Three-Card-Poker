@@ -45,7 +45,7 @@ const Owner = ({state}) => {
  
         const getplayers_arr=await contract.getplayers_arr();
         setPlayerDetails(getplayers_arr);
-      
+
        }
 
        getdetails();

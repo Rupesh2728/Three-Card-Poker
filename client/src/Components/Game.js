@@ -50,7 +50,7 @@ const Game = ({state,account}) => {
       console.log(account);
      
         for(let i=0;i<uniqueArray.length;i++)
-         {  if(((uniqueArray).toString())===account.toString())
+         {  if(((uniqueArray[i]).toString())===account.toString())
            {
                setwinnerflag(true);
            }  
@@ -143,7 +143,7 @@ const Game = ({state,account}) => {
              <p className='flex justify-center'>
                <img src="https://i.pinimg.com/736x/6d/1e/bf/6d1ebf50b4a2c395dabbd4f8c1670c4b.jpg"
                  className='w-[1.8rem] h-[1.6rem] rounded-[50%]' alt=''/>
-              <span className='font-bold text-[gold] ml-2'>{player.name}-{player.score}</span>
+              <span className='font-bold text-[gold] ml-2'>{player.name}</span>
              </p>
                <div className='flex'>
                  <OtherPlayerCard suit={player.card_suit1.toString()} value={player.card_num1.toString()} reveal={reveal} className="m-3 w-[3rem]"/>

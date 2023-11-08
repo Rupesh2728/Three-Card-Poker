@@ -13,7 +13,7 @@ const CardImg = ({imageName,className}) => {
   
     
     return (
-        <img src={imageSrc} alt={imageName} className={className} />
+        <img src={imageSrc} alt={imageName} key={imageName} className={className} />
   )
 }
 

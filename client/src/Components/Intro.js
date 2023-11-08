@@ -11,7 +11,7 @@ const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
   const onClickHandler=()=>{
     const connetWallet=async()=>{
-      const contractAddress="0x3F8B1691fF668a3A618436177f3BaC54513d8554";
+      const contractAddress="0xC141e66C818cC1726E9DBf98DB295989cd19d9a5";
       const contractABI=abi.abi;
       try{
         const {ethereum} = window;
@@ -110,13 +110,14 @@ const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
         <p className="text-[black] font-bold ml-[0.5rem] flex">
           <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
-          className="w-[1.5rem] h-[1.5rem]" alt=""/> Their is a wallet named "Win Wallet" which stores your win amount in it. You can transfer the amount at any time.
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> There is a wallet named "Win Wallet" which stores your win amount in it. You can transfer the amount at any time.
         </p>
 
         <p className="text-[black] font-bold ml-[0.5rem] flex">
           <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
-          className="w-[1.5rem] h-[1.5rem]" alt=""/> For every 10 games played, you recieve a bonus.
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> For every 10 games played, you recieve a bonus.You can transfer that at any time.
         </p>
+        
       </div>
 
       {account===owner && 
