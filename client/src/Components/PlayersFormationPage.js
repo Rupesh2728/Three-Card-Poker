@@ -14,7 +14,7 @@ const PlayersFormationPage = ({state,account}) => {
   const [numgames,setnumgames] = useState("");
   const [exiting_players,setexiting_players] = useState("");
   // const [account,setaccount]=useState("No account Connected");
-  const betval=0.0007;
+  const betval=0.0008;
 
   const {contract}=state;
 
@@ -26,7 +26,6 @@ const PlayersFormationPage = ({state,account}) => {
    useEffect(()=>{
     const getinfo=async()=>{
     const getplayers_arr=await contract.getplayers_arr();
-    console.log(getplayers_arr);
     setPlayerDetails(getplayers_arr);
 
     
@@ -100,6 +99,7 @@ const PlayersFormationPage = ({state,account}) => {
     {
       const {contract}=state;
       const val=betval+Number(pfee);
+      console.log(val);
       const amount={ value : ethers.parseEther(val.toString()) };
       await contract.Play_poker(nickname,ethers.parseEther(pfee),amount);
       console.log("Transaction done...");

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import {ethers } from "ethers";
 import startbtnlogo from '../Assests/startbtnlogo.png';
 
-// 0xA3cEe4018Eb65EA6A7EE9e25CBB1a5a3bD33Fa0f
 const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
   const [account,setaccount]=useState("No account Connected");
@@ -12,7 +11,7 @@ const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
   const onClickHandler=()=>{
     const connetWallet=async()=>{
-      const contractAddress="0xA3cEe4018Eb65EA6A7EE9e25CBB1a5a3bD33Fa0f";
+      const contractAddress="0x3F8B1691fF668a3A618436177f3BaC54513d8554";
       const contractABI=abi.abi;
       try{
         const {ethereum} = window;
@@ -116,7 +115,7 @@ const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
         <p className="text-[black] font-bold ml-[0.5rem] flex">
           <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
-          className="w-[1.5rem] h-[1.5rem]" alt=""/> If your wallet accumulates a certain amount of win amount you recieve bonus.
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> For every 10 games played, you recieve a bonus.
         </p>
       </div>
 
