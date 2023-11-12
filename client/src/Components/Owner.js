@@ -15,7 +15,7 @@ const Owner = ({state}) => {
     const {contract} =state;
     const platformfeeHandler = async (e) => {
       e.preventDefault(); 
-      await contract.setPlatformfee(platformfee);
+      await contract.setPlatformfee(ethers.parseEther(platformfee));
       setplatformfee("");
     };
  
@@ -40,7 +40,7 @@ const Owner = ({state}) => {
       
  
         const pfee=await contract.platformfee();
-        setpfee(pfee);
+        setpfee((ethers.formatEther(pfee)).toString());
        
  
         const getplayers_arr=await contract.getplayers_arr();

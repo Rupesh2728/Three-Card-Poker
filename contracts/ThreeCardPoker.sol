@@ -22,7 +22,7 @@ contract ThreeCardPoker
 
  
     bool setwinner=false;
-    string public platformfee;
+    uint public platformfee;
     uint public owners_bal;
     uint public bonus;
     uint prevroundbalance;
@@ -39,7 +39,7 @@ contract ThreeCardPoker
     constructor()
     {
         manager=msg.sender;
-        platformfee="0";
+        platformfee=0;
         owners_bal=0;
         bonus=0;
     }
@@ -49,7 +49,7 @@ contract ThreeCardPoker
         return manager.balance;
     }
 
-    function setPlatformfee(string memory pfee) public 
+    function setPlatformfee(uint pfee) public 
     {   require(msg.sender==manager);
         platformfee=pfee;
     } 
@@ -137,9 +137,9 @@ contract ThreeCardPoker
            uint balance;
 
         if(prevroundbalance<address(this).balance)
-          balance=address(this).balance-prevroundbalance;
+          balance=address(this).balance-(4*platformfee)-prevroundbalance;
         else 
-          balance=prevroundbalance-address(this).balance;
+          balance=prevroundbalance-address(this).balance-(4*platformfee);
 
         prevroundbalance+=balance;
        

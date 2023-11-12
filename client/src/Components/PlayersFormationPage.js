@@ -55,7 +55,7 @@ const PlayersFormationPage = ({state,account}) => {
     setbonusval((ethers.formatEther(bonus)).toString());
  
     const pfee=await contract.platformfee();
-    setpfee(pfee);
+    setpfee((ethers.formatEther(pfee)).toString());
 
     const numgamesplayed=await contract.num_games_played();
     setnumgames(numgamesplayed.toString());
