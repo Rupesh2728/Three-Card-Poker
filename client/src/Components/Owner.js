@@ -27,9 +27,13 @@ const Owner = ({state}) => {
 
     useEffect(()=>{
        const getdetails=async ()=>{
+         console.log("Hello1");
         const owneraddress=await contract.manager();
         setowner(owneraddress.toString());
+
+        console.log("Hello2");
      
+
 
         const bonus=await contract.bonus();
         setbonusval((ethers.formatEther(bonus)).toString());

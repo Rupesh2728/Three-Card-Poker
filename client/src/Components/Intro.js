@@ -11,7 +11,7 @@ const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
   const onClickHandler=()=>{
     const connetWallet=async()=>{
-      const contractAddress="0x54FB9185Fbb36786f2c46149B8A2F2D227Bf3b1e";
+      const contractAddress="0x6AD34847882fBcA5b505EEE560d56DECeDD9981A";
       const contractABI=abi.abi;
       try{
         const {ethereum} = window;
@@ -115,7 +115,7 @@ const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
         <p className="text-[black] font-bold ml-[0.5rem] flex">
           <img src="https://i.pinimg.com/1200x/a4/ea/b8/a4eab8d261ab7205975996cf04269565.jpg"
-          className="w-[1.5rem] h-[1.5rem]" alt=""/> For every 10 games played, you recieve a bonus.You can transfer that at any time.
+          className="w-[1.5rem] h-[1.5rem]" alt=""/> For every 5 games played, you recieve a bonus.You can transfer that at any time.
         </p>
         
       </div>

@@ -127,7 +127,7 @@ contract ThreeCardPoker
         }
 
         num_games_played_users[msg.sender]+=1;
-        if((num_games_played_users[msg.sender])%10==0)
+        if((num_games_played_users[msg.sender])%5==0)
         {
             Bonus_Users[msg.sender]+=bonus;
         }
@@ -141,7 +141,7 @@ contract ThreeCardPoker
         else 
           balance=prevroundbalance-address(this).balance-(4*platformfee);
 
-        prevroundbalance+=balance;
+        prevroundbalance+=(balance+(4*platformfee));
        
         uint final_prize=balance/winners.length;
 
