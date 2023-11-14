@@ -17,3 +17,10 @@ To install all the packages in client folder(Front end)
 ```shell
 npm install
 ```
+
+The game is deployed in vercel and here is the link for the deployed version of the game. 
+Please visit the game and enjoy the experience...
+```shell
+https://threecardpoker.vercel.app/
+```
+
