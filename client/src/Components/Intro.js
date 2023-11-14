@@ -11,7 +11,7 @@ const Intro = ({setstateHandler,setAccountHandler,owner}) => {
 
   const onClickHandler=()=>{
     const connetWallet=async()=>{
-      const contractAddress="0x02D49D6Ea83E254D4AA862749dDcA2810BDF2168";
+      const contractAddress="0xCc7D956c6F1a0303Cb9dA48Db0c6d2E402684467";
       const contractABI=abi.abi;
       try{
         const {ethereum} = window;
