@@ -24,8 +24,6 @@ Please visit the game and enjoy the experience...
 https://threecardpoker.vercel.app/
 ```
 
-### Some Images of the Project are attached Below...
- ![image](https://github.com/Rupesh2728/BTA-Project/assets/107076022/33aaed01-c72c-46e7-a540-0a11143238b9)
 
 
 
