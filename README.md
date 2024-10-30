@@ -4,9 +4,9 @@
 
 <h2 align="left">Tech Stack and Tools :</h2>
 <p>
-<a href="https://soliditylang.org/" target="_blank" rel="noreferrer"> <img src="https://developers.moralis.com/wp-content/uploads/2021/06/Blog-Solidity-Logo.png" alt="Solidity" width="150" height="100"/> </a>
+<a href="https://soliditylang.org/" target="_blank" rel="noreferrer"> <img src="https://developers.moralis.com/wp-content/uploads/2021/06/Blog-Solidity-Logo.png" alt="Solidity" width="180" height="100"/> </a>
 <a href="https://docs.ethers.org/v5/" target="_blank" rel="noreferrer"> <img src="https://miro.medium.com/v2/resize:fit:960/1*z7_kWKf-M-b_qSYTM_9b-g.png" alt="Ethers.js" width="150" height="100"/> </a>
-<a href="https://hardhat.org/" target="_blank" rel="noreferrer"> <img src="https://hardhat.org/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhardhat-logo.5c5f687b.svg&w=256&q=75" alt="HardHat" width="150" height="100"/> </a>
+<a href="https://hardhat.org/" target="_blank" rel="noreferrer"> <img src="https://hardhat.org/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhardhat-logo.5c5f687b.svg&w=256&q=75" alt="HardHat" width="180" height="100"/> </a>
 <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="80" height="80"/> </a>
 <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="80" height="80"/> </a>
 </p>
