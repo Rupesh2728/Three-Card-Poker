@@ -10,7 +10,7 @@
 <a href="https://hardhat.org/" target="_blank" rel="noreferrer"> <img src="https://hardhat.org/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhardhat-logo.5c5f687b.svg&w=256&q=75" alt="HardHat" width="220" height="100"/> </a>
 <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="80" height="80"/> </a>
 <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="80" height="80"/> </a>
-<a href="https://metamask.io/" target="_blank" rel="noreferrer"> <img src="https://files.readme.io/a6b6a4e-metamask-fox-wordmark-stacked.png" alt="Metamask" width="80" height="80"/> </a>
+<a href="https://metamask.io/" target="_blank" rel="noreferrer"> <img src="https://files.readme.io/a6b6a4e-metamask-fox-wordmark-stacked.png" alt="Metamask" width="150" height="110"/> </a>
 </p>
 
 <h2 align="left">Game Architecture </h2>
