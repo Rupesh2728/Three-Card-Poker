@@ -10,141 +10,66 @@
 <a href="https://hardhat.org/" target="_blank" rel="noreferrer"> <img src="https://hardhat.org/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhardhat-logo.5c5f687b.svg&w=256&q=75" alt="HardHat" width="220" height="100"/> </a>
 <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="80" height="80"/> </a>
 <a href="https://tailwindcss.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg" alt="tailwind" width="80" height="80"/> </a>
+<a href="https://vercel.com" target="_blank" rel="noreferrer"> <img src="https://www.hatimeria.com/images/marketing/vercel-logo.png" alt="vercel" width="90" height="40"/> </a>
 <a href="https://metamask.io/" target="_blank" rel="noreferrer"> <img src="https://files.readme.io/a6b6a4e-metamask-fox-wordmark-stacked.png" alt="Metamask" width="150" height="110"/> </a>
+<a href="https://sepolia.etherscan.io/" target="_blank" rel="noreferrer"> <img src="https://sepolia.dev/wp-content/uploads/elementor/thumbs/the-dolphin-po0q7ezlhqqzvrfmzw0atih2l0vqelut73w4eh5qtc.png" alt="Sepolia Eth" width="100" height="150"/> </a>
 </p>
 
 <h2 align="left">Game Architecture </h2>
 <img src="./BTA_Flowchart.png" alt="Work Flow" width="900" height="450"/>
 
-<h3 align="left">Data Collection</h3>
+<h2 align="left">Features and Uniqueness</h2>
 
-- **Links Collection from tech-crunch** : All the articles released on a particular date are arranged under the URL which looks link **https://www.techcrunch.com/dd-mm-yyyy/**.
-We sent request to this link by iterating the date from June 6th 2005 to November 25th 2023.
+- MetaMask Integration  
 
-- The dataset comprises around 1,09,000 documents.
+- Platform Fee 
   
-- **Source Website** : https://www.techcrunch.com
+- Player Fee 
 
-- **Fetching Data from links** : After collecting all the links, iteratively requests were sent to every link and parsed the response using beautiful-Soup library.
+- Bonus 
 
-<h3 align="left">Data Pre-Processing</h3>
+- Separate Dashboards for Players and Owners 
 
-- **Text Cleaning** : Clean the text data to remove unnecessary characters and formatting.
+<h2 align="left">Uniqueness</h2>
 
--  **Text Cleaning** : Break the text into individual tokens (words or phrases).
+- The winning algorithm is quite simple and different from existing ones.
 
--  **Lemmatization** : Convert words to their base or root form.
+- Separate dashboards are created for both players and owners.
 
--  **Stop Word Removal** : Eliminate common words that do not contribute significant meaning (e.g., "and," "the").
+- A bonus is awarded to players for every 5 games played, enhancing the gaming experience.
 
-<h3 align="left">Indexing</h3>
+- Each round accommodates 4 players, ensuring smooth gameplay without interruptions from others not engaged in the game.
 
-- An efficient indexing system to facilitate quick retrieval of documents.
+- The current setup may not be highly scalable, but improvements can be made by adjusting the smart contract.
 
-<h3 align="left">Ranking</h3>
+- The user interface is aesthetically pleasing, enhancing the overall gaming experience.
 
-- Utilize the Vector Space Model to represent documents and queries as vectors.
+<h2 align="left">Game (Video)</h2>
 
-- Rank documents based on their relevance to the user’s query.
 
-<h3 align="left">Search Engine Implementation</h3>
-
-- **User Input:** : Capture user queries for searching using frontend application.
-
--  **Query Processing** : Process the input query to prepare it for matching against indexed documents.
-
--  **Cosine Similarity** : Calculate cosine similarity between document vectors and query vectors to determine relevance.
-
-<h3 align="left">User Interface</h3>
-
-- Developed a user-friendly interface for seamless interaction with the search engine.
-
-<h3 align="left">Feedback Mechanism</h3>
-
-- Implemented a system to collect user feedback on retrieved results.
-
-<h3 align="left">Evaluation</h3>
-
-- Analyze performance using Precision-Recall (P-R) curve after marking retrieved documents as relevant or non-relevant.
-
-All the files for above steps are available in the **LogicFiles** folder inside **Search_Engine_Server**
+https://github.com/user-attachments/assets/49a7315d-a6de-4abf-98f2-c74f4e04ff90
 
 
 <h2 align="left">Installation</h2>
 To get started with this project, clone the repository and install the necessary libraries in your system
 
-<h3>Primary Steps to be followed :</h3>
-
-- You may find the dataset and JSON Files in the below drive link
-
-- https://drive.google.com/drive/folders/1w-MOcWZxe9dN9Ts2SIGq1txZMIx8VJhf?usp=sharing
-
-- Download All the 7 JSON files present in **JsonFiles** folder from above drive link.
-
-- Follow below instructions for complete setup of the project
-
 ```bash
 # Clone the repository
-git clone https://github.com/Rupesh2728/Techno_Tales.git
+git clone https://github.com/Rupesh2728/Three-Card-Poker.git
 
 # Navigate to the project directory
-cd Techno_Tales-main
-```
+cd Three-Card-Poker-main
 
-<h3 align="left">Server Setup :</h3>
-
-```bash
-    # Navigate to the Search_Engine_Server folder 
-    cd Search_Engine_Server
-
-   # Create a empty folder named "IRDataset"
-   mkdir IRDataset
-
-   # Navigate into IRDataset folder
-   mkdir JsonFiles
-  ```
-
-- Place those 7 files, inside the folder named **JsonFiles** in **IRDataset** folder that is present in **Search_Engine_Server** folder.
-
-- Continue to follow below instructions for complete the remaining setup of the project.
-  
-```bash
-# Navigate to the Search_Engine_Server folder 
-cd Search_Engine_Server
-
-#  Check your pip version
-python -m pip --version
-
-# Make sure to have pip or pip3 installed
-python.exe -m pip install --upgrade pip  (or) python.exe -m pip install --upgrade pip --user
-
-# Install the required Python packages using the command
-pip install -r requirements.txt --user
-
-# Run the main server file
- python Server.py
-
-# Allow the server, (B/w 90-100 Seconds) to load all the files
-```
-
-<h3 align="left">Client Setup :</h3>
-
-```bash
-# Navigate to the Search_Engine_Server folder 
-cd Frontend
-
-# Install the required Node.js modules
+# Install all the Hardhat related packages
 npm install
 
-# Start the React application
-npm start
-
-# Make sure the server is ready to accept the requests and wait until the below message is poped-up
-The Files are Loaded in to the Server.....
-
-# Now, give the query input in the frontend application
+# Install all the Client related packages
+cd client
+npm install
 ```
-
+- Project is ready for execution !!!
+  
+- You can also visit my website at the deployed URL <a href="https://threecardpoker.vercel.app/" target="blank">https://threecardpoker.vercel.app/</a>
 
 <h2 align="left">Images</h2>
 <a href="" target="_blank" rel="noreferrer"> 
@@ -169,9 +94,9 @@ The Files are Loaded in to the Server.....
 
 <h2 align="left">Contact Me</h2>
 
-- 📫 You can to reach me by mailing to **rupesh.p21@iiits.in** or **rupeshprofessional2728@gmail.com** or **varun.p21@iiits.in**
+- 📫 You can to reach me by mailing to **rupesh.p21@iiits.in** or **rupeshprofessional2728@gmail.com**
 
-- 👨‍💻 Project is available at [https://github.com/Rupesh2728/Techno_Tales.git]
+- 👨‍💻 Project is available at [https://github.com/Rupesh2728/Three-Card-Poker.git]
   
 
 
