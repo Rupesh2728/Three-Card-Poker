@@ -71,27 +71,6 @@ npm install
   
 - You can also visit my website at the deployed URL <a href="https://threecardpoker.vercel.app/" target="blank">https://threecardpoker.vercel.app/</a>
 
-<h2 align="left">Images</h2>
-<a href="" target="_blank" rel="noreferrer"> 
-<img src="./Search_Engine_Server/Website images/img1.png" alt="react" width="800" height="400"/> 
-</a>
-
-<a href="" target="_blank" rel="noreferrer"> 
-<img src="./Search_Engine_Server/Website images/img2.png" alt="react" width="800" height="400"/> 
-</a>
-
-<a href="" target="_blank" rel="noreferrer"> 
-<img src="./Search_Engine_Server/Website images/img3.png" alt="react" width="800" height="400"/> 
-</a>
-
-<a href="" target="_blank" rel="noreferrer"> 
-<img src="./Search_Engine_Server/Website images/img4.png" alt="react" width="800" height="400"/> 
-</a>
-
-<a href="" target="_blank" rel="noreferrer"> 
-<img src="./Search_Engine_Server/Website images/img5.png" alt="react" width="800" height="400"/> 
-</a>
-
 <h2 align="left">Contact Me</h2>
 
 - 📫 You can to reach me by mailing to **rupesh.p21@iiits.in** or **rupeshprofessional2728@gmail.com**
