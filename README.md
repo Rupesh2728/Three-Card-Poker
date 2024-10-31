@@ -18,7 +18,7 @@
 <h2 align="left">Game Architecture </h2>
 <img src="./BTA_Flowchart.png" alt="Work Flow" width="900" height="450"/>
 
-<h2 align="left">Features and Uniqueness</h2>
+<h2 align="left">Features</h2>
 
 - MetaMask Integration  
 
