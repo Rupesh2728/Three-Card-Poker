@@ -69,7 +69,7 @@ npm install
 ```
 - Project is ready for execution !!!
   
-- You can also visit my website at the deployed URL <a href="https://threecardpoker.vercel.app/" target="blank">https://threecardpoker.vercel.app/</a>
+- You can also visit the game at the deployed URL <a href="https://threecardpoker.vercel.app/" target="blank">https://threecardpoker.vercel.app/</a>
 
 <h2 align="left">Contact Me</h2>
 
