@@ -1,7 +1,7 @@
 ﻿﻿﻿﻿<h1 align="center">Three Card Poker</h1>
 <h3 align="center">A Blockchain Smart Contract based game </h3>
 <h3 align="center">The goal of this project is to create a game tailored for poker players to play using their metamask account</h3>
-<h4 align="center">You can visit my website at <a href="https://threecardpoker.vercel.app/" target="blank">https://threecardpoker.vercel.app/</a> </h3>
+<h4 align="center">You can visit the game at <a href="https://threecardpoker.vercel.app/" target="blank">https://threecardpoker.vercel.app/</a> </h3>
 
 <h2 align="left">Tech Stack and Tools :</h2>
 <p>
